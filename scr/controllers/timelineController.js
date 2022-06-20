@@ -26,6 +26,7 @@ export async function controllerPostTimeline(req, res) {
   const { token } = req.body;
   const { postBody } = req.body;
   authPostTimeline(token);
+
   try {
     await postTimeline(postBody);
     return res.sendStatus(201);
