@@ -1,9 +1,12 @@
 import { Router } from "express";
-import { sendPostsTimeline } from "../repositories/timelineRepositories.js";
+import {
+  controllerPostTimeline,
+  ControllerTimeline,
+} from "../controllers/timelineController.js";
 
 const timelineRouter = Router();
 
-timelineRouter.post("/post");
-timelineRouter.get("/timeline", sendPostsTimeline);
+timelineRouter.post("/post", controllerPostTimeline);
+timelineRouter.get("/timeline", ControllerTimeline);
 
 export default timelineRouter;

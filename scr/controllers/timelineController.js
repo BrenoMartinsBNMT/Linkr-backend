@@ -2,12 +2,17 @@ import {
   sendPostsTimeline,
   authUserTimeline,
   postTimeline,
-} from "../repositories/timelineRepositories";
+  authPostTimeline,
+} from "../repositories/timelineRepositories.js";
 
 export async function ControllerTimeline(req, res) {
-  const { token } = req.headers;
-  const isUserExist = await authUserTimeline(token);
+  const { authorization } = req.headers;
 
+  const isUserExist = await authUserTimeline(authorization);
+  console.log(isUserExist);
+  if (isUserExist === 401) {
+    return res.sendStatus(401);
+  }
   if (isUserExist.rows.length === 0) {
     return res.status(404).send("usuário não encontrado");
   }
@@ -20,7 +25,7 @@ export async function ControllerTimeline(req, res) {
 export async function controllerPostTimeline(req, res) {
   const { token } = req.body;
   const { postBody } = req.body;
-
+  authPostTimeline(token);
   try {
     await postTimeline(postBody);
     return res.sendStatus(201);
